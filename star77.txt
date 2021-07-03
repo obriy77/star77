@@ -90,7 +90,7 @@ $ crontab -e
 
 ...
 
-3.1)Пример вывода результатов работы Cron Jobs:
+3.1) Пример вывода результатов работы Cron Jobs:
 
 $ tail mylog_1.log
 
@@ -121,8 +121,10 @@ _gateway                 ether   34:ce:00:65:2e:33   C                     eth0 
 
 
 
+=========================================================================================================================
 
-3) Пишу в файл /etc/init.d/output_list_ARP скрипт для демона:
+
+4) Пишу в файл /etc/init.d/output_list_ARP скрипт для демона:
 
 #!/bin/bash
 
@@ -161,13 +163,33 @@ esac
 exit 0
 
 
-4) Делаю скрипт исполняемым и проверяю его работу:
+4.1) Делаю скрипт исполняемым и проверяю его работу:
 
 **sudo chmod u+x /etc/init.d/output_list_ARP**
 
 **sudo systemctl status output_list_ARP**
+systemctl status output_arp.service
+● output_arp.service - SYSV: checking cpu load
+   Loaded: loaded (/etc/init.d/output_arp; generated)
+   Active: inactive (dead)
+     Docs: man:systemd-sysv-generator(8)
+
 
 **sudo systemctl start output_list_ARP**
+systemctl status output_arp.service
+● output_arp.service - SYSV: checking cpu load
+   Loaded: loaded (/etc/init.d/output_arp; generated)
+   Active: active (exited) since Sat 2021-07-03 23:55:06 MSK; 8s ago
+     Docs: man:systemd-sysv-generator(8)
+  Process: 3066 ExecStart=/etc/init.d/output_arp start (code=exited, status=0/SUCCESS)
+
+Jul 03 23:55:06 ubuntu1804.localdomain systemd[1]: Starting SYSV: checking cpu load...
+Jul 03 23:55:06 ubuntu1804.localdomain output_arp[3066]: /etc/init.d/output_arp: line 6: /etc/init.d/functions: No such fi
+Jul 03 23:55:06 ubuntu1804.localdomain output_arp[3066]: /etc/init.d/output_arp: line 10: /home/user/mylog_1.log: No such
+Jul 03 23:55:06 ubuntu1804.localdomain output_arp[3066]: sh: 0: Can't open /home/user/output_arp.sh
+Jul 03 23:55:06 ubuntu1804.localdomain systemd[1]: Started SYSV: checking cpu load.
 
 **sudo systemctl stop output_list_ARP**
 
+** Скрипт запускается успешно, созданный демон output_list_ARP работает как на запуск и остановку, 
+так и на проверку статуса **
